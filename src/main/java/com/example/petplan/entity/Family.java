@@ -4,7 +4,10 @@ package com.example.petplan.entity;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,14 +22,21 @@ public class Family {
 
     private String password;
 
-    @OneToMany(mappedBy = "family", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Pet> pets = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "family_id")
+    private List<Pet> pets = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "family_id")
+    private List<Member> members = new ArrayList<>();
 
     public Family() {}
 
-    public Family(String familyId, String password) {
+    public Family(String familyId, String password, List<Pet> pets,List<Member> members) {
         this.familyId = familyId;
         this.password = password;
+        this.members = members;
+        this.pets = pets;
     }
 
     public Long getId() {
@@ -37,11 +47,35 @@ public class Family {
         this.id = id;
     }
 
-    public String getFamilyId() {
-        return familyId;
+    public String getPassword() {
+        return password;
     }
 
-    public void setFamilyId(String familyId) {
-        this.familyId = familyId;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
+
+    public void addPet(Pet pet) {
+        pets.add(pet);
+    }
+
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
+    }
+
+    public void addMember(Member member) {
+        members.add(member);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.petplan.controller;
 
 import com.example.petplan.entity.Family;
+import com.example.petplan.entity.Member;
 import com.example.petplan.service.FamilyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,12 @@ public class FamilyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFamily(@PathVariable("id") Long id) {
         familyService.deleteFamily(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}/members")
+    public ResponseEntity<Void> addFamilyMember(@PathVariable Long id, @RequestBody Member member) {
+        familyService.addFamilyMember(id, member);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

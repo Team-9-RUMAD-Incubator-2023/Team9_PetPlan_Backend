@@ -1,6 +1,7 @@
 package com.example.petplan.repository;
 
 import com.example.petplan.entity.Family;
+import com.example.petplan.entity.Member;
 
 import java.util.List;
 
@@ -19,5 +20,9 @@ public interface FamilyRepository {
     void updateFamily(Family family);
 
     void deleteFamily(Long id);
+
+    void delete(Long id);
+
+    void addFamilyMember(Long id, Member member);
 
 }

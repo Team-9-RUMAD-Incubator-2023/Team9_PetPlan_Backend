@@ -1,45 +1,47 @@
 package com.example.petplan.repository.impl;
 
 import com.example.petplan.entity.Family;
+import com.example.petplan.entity.Member;
 import com.example.petplan.repository.FamilyRepository;
 import org.springframework.stereotype.Repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import java.util.List;
+
+import java.util.*;
 
 @Repository
 @Transactional
 public abstract class FamilyRepositoryImpl implements FamilyRepository {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final Map<Long, Family> familyMap = new HashMap<>();
 
     @Override
-    public List<Family> getAllFamilies() {
-        return entityManager.createQuery("SELECT f FROM Family f", Family.class).getResultList();
+    public Family save(Family family) {
+        familyMap.put(family.getId(), family);
+        return family;
     }
 
     @Override
-    public Family getFamilyById(Long id) {
-        return entityManager.find(Family.class, id);
+    public List<Family> findAll() {
+        return new ArrayList<>(familyMap.values());
     }
 
     @Override
-    public void addFamily(Family family) {
-        entityManager.persist(family);
+    public Family findById(Long id) {
+        return familyMap.get(id);
     }
 
     @Override
-    public void updateFamily(Family family) {
-        entityManager.merge(family);
+    public void delete(Long id) {
+        familyMap.remove(id);
     }
 
     @Override
-    public void deleteFamily(Long id) {
-        Family family = getFamilyById(id);
-        entityManager.remove(family);
+    public void addFamilyMember(Long id, Member member) {
+        Family family = familyMap.get(id);
+        if (family != null) {
+            family.addMember(member);
+        }
     }
 
 }

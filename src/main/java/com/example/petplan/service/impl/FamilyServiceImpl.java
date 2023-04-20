@@ -1,6 +1,7 @@
 package com.example.petplan.service.impl;
 
 import com.example.petplan.entity.Family;
+import com.example.petplan.entity.Member;
 import com.example.petplan.repository.FamilyRepository;
 import com.example.petplan.service.FamilyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,10 @@ public abstract class FamilyServiceImpl implements FamilyService {
     @Override
     public void deleteFamily(Long id) {
         familyRepository.deleteFamily(id);
+    }
+
+    @Override
+    public void addFamilyMember(Long id, Member member) {
+        familyRepository.addFamilyMember(id, member);
     }
 }
